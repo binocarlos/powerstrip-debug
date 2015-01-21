@@ -1,0 +1,26 @@
+{
+  "name": "powerstrip-debug",
+  "version": "1.0.0",
+  "description": "A stub powerstrip adapter that logs requests to stdout",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/binocarlos/powerstrip-debug.git"
+  },
+  "keywords": [
+    "powerstrip"
+  ],
+  "author": "Kai Davenport",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/binocarlos/powerstrip-debug/issues"
+  },
+  "homepage": "https://github.com/binocarlos/powerstrip-debug",
+  "dependencies": {
+    "concat-stream": "^1.4.7",
+    "minimist": "^1.1.0"
+  }
+}
