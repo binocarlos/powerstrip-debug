@@ -20,6 +20,9 @@ var server = http.createServer(function(req, res){
 
     body = JSON.parse(body.toString())
 
+    console.log(req.method + ' ' + req.url)
+    console.dir(body)
+
     var returnBody = {
       PowerstripProtocolVersion:1
     }
