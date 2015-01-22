@@ -26,9 +26,9 @@ $ mkdir -p ~/powerstrip-demo
 $ cat > ~/powerstrip-demo/plugins.yml <<EOF
 endpoints:
   "/*/containers/create":
-    pre: [weave]
+    pre: [debug]
   "/*/containers/*/start":
-    post: [weave]
+    post: [debug]
 plugins:
   debug: http://debug/v1/extension
 EOF
@@ -41,7 +41,7 @@ $ docker run -d --name powerstrip \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v ~/powerstrip-demo/plugins.yml:/etc/powerstrip/plugins.yml \
   --link powerstrip-debug:debug \
-  -p 2375:2375 \
+  -p 2375:4243 \
   clusterhq/powerstrip
 ```
 

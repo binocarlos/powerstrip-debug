@@ -5,4 +5,4 @@ ADD . /srv/app
 RUN cd /srv/app && npm install
 WORKDIR /srv/app
 EXPOSE 80
-ENTRYPOINT ["node", "/srv/app/index.js"]
+ENTRYPOINT ["node", "index.js"]
