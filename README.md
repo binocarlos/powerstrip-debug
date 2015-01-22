@@ -73,14 +73,16 @@ $ docker run --rm ubuntu echo hello
 
 It is useful to insert the debug container after other adapters so you can see the effect they are having on docker API calls.
 
-This is done by the ordering of the adapters in the powerstrip config file:
+This is done by the ordering of the adapters in the powerstrip config file.
+
+The following example will log requests before AND after they are modified by the [weave](https://github.com/binocarlos/powerstrip-weave.git) adapter:
 
 ```yaml
 endpoints:
   "POST /*/containers/create":
-    pre: [weave, debug]
+    pre: [debug, weave, debug]
   "POST /*/containers/*/start":
-    post: [weave, debug]
+    post: [debug, weave, debug]
 adapters:
   weave: http://weave/v1/extension
   debug: http://debug/v1/extension
