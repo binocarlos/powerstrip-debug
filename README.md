@@ -1,7 +1,7 @@
 powerstrip-debug
 ================
 
-A [Powerstrip](https://github.com/ClusterHQ/powerstrip) plugin that logs requests to stdout as does nothing else.
+A [Powerstrip](https://github.com/ClusterHQ/powerstrip) adapter that logs requests to stdout.
 
 ## install
 
@@ -9,7 +9,7 @@ A [Powerstrip](https://github.com/ClusterHQ/powerstrip) plugin that logs request
 $ docker build -t binocarlos/powerstrip-debug .
 ```
 
-## run the plugin
+## run the adapter
 
 ```bash
 $ docker run -d --name powerstrip-debug \
@@ -23,13 +23,13 @@ First create a powerstrip configuration:
 
 ```bash
 $ mkdir -p ~/powerstrip-demo
-$ cat > ~/powerstrip-demo/plugins.yml <<EOF
+$ cat > ~/powerstrip-demo/adapters.yml <<EOF
 endpoints:
-  "/*/containers/create":
+  "POST /*/containers/create":
     pre: [debug]
-  "/*/containers/*/start":
+  "POST /*/containers/*/start":
     post: [debug]
-plugins:
+adapters:
   debug: http://debug/v1/extension
 EOF
 ```
@@ -39,9 +39,9 @@ And then run the powerstrip container and link it to the powerstrip-debug contai
 ```bash
 $ docker run -d --name powerstrip \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v ~/powerstrip-demo/plugins.yml:/etc/powerstrip/plugins.yml \
+  -v ~/powerstrip-demo/adapters.yml:/etc/powerstrip/adapters.yml \
   --link powerstrip-debug:debug \
-  -p 2375:4243 \
+  -p 2375:2375 \
   clusterhq/powerstrip
 ```
 
@@ -55,7 +55,11 @@ First you must export the `DOCKER_HOST` variable to point at the powerstrip serv
 $ export DOCKER_HOST=tcp://127.0.0.1:2375
 ```
 
-Now - all docker requests are logged to stdout of the powerstrip-debug container.
+Now - all docker requests are logged to stdout of the powerstrip-debug container:
+
+```bash
+$ docker run --rm ubuntu echo hello
+```
 
 ## licence
 
