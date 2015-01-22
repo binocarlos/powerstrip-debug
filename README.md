@@ -17,9 +17,17 @@ $ docker run -d --name powerstrip-debug \
     binocarlos/powerstrip-debug
 ```
 
+It can be handy to run the debug adapter in its own shell and leave it attached so you can see its output as requests are made:
+
+```bash
+$ docker run -ti --rm --name powerstrip-debug \
+    --expose 80 \
+    binocarlos/powerstrip-debug
+```
+
 ## run powerstrip
 
-First create a powerstrip configuration:
+First create a powerstrip configuration with the debug adapter:
 
 ```bash
 $ mkdir -p ~/powerstrip-demo
@@ -59,6 +67,23 @@ Now - all docker requests are logged to stdout of the powerstrip-debug container
 
 ```bash
 $ docker run --rm ubuntu echo hello
+```
+
+## chaining the debug container
+
+It is useful to insert the debug container after other adapters so you can see the effect they are having on docker API calls.
+
+This is done by the ordering of the adapters in the powerstrip config file:
+
+```yaml
+endpoints:
+  "POST /*/containers/create":
+    pre: [weave, debug]
+  "POST /*/containers/*/start":
+    post: [weave, debug]
+adapters:
+  weave: http://weave/v1/extension
+  debug: http://debug/v1/extension
 ```
 
 ## licence
