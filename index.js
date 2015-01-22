@@ -20,12 +20,15 @@ var server = http.createServer(function(req, res){
 
     body = JSON.parse(body.toString())
 
-    console.log(req.method + ' ' + req.url)
-    console.dir(body)
-
     var returnBody = {
       PowerstripProtocolVersion:1
     }
+
+    console.log('')
+    console.log('-------------------------------------------');
+    console.log('')
+    console.log('Version:          ' + body.PowerstripProtocolVersion)
+    console.log('Type:             ' + body.Type)
 
     /*
     
@@ -36,19 +39,56 @@ var server = http.createServer(function(req, res){
       
     */
     if(body.Type=='pre-hook'){
-      returnBody.ModifiedClientRequest = body.ClientRequest
+
+      var ClientRequest = body.ClientRequest
+      var ClientRequestBody = JSON.parse(ClientRequest.Body)
+
+      console.log('Request:')
+      console.log('')
+      console.log('    Method:      ' + ClientRequest.Method)
+      console.log('    URL:         ' + ClientRequest.Request)
+      if(ClientRequestBody){
+        console.log('')
+        console.log(JSON.stringify(ClientRequestBody, null, 4))
+      }
+      console.log('')
+
+      returnBody.ModifiedClientRequest = ClientRequest
     }
     else if(body.Type=='post-hook'){
-      returnBody.ModifiedServerResponse = body.ServerResponse
+
+      var ClientRequest = body.ClientRequest
+      var ClientRequestBody = JSON.parse(ClientRequest.Body)
+
+      var ServerResponse = body.ServerResponse
+
+      console.log('Request:')
+      console.log('')
+      console.log('    Method:      ' + ClientRequest.Method)
+      console.log('    URL:         ' + ClientRequest.Request)
+      if(ClientRequestBody){
+        console.log('')
+        console.log(JSON.stringify(ClientRequestBody, null, 4))
+      }
+      console.log('')
+      console.log('Response:')
+      console.log('')
+      console.log('    ContentType: ' + ServerResponse.ContentType)
+      console.log('    Code:        ' + ServerResponse.Code)
+      console.log('')
+      console.log(ServerResponse.Body)
+
+      returnBody.ModifiedServerResponse = ServerResponse
     }
     else{
+      console.log('Error:  No Type found in body')
       res.statusCode = 500;
       res.end('No Type found in body')
       return
     }
     
-    res.headers['Content-type'] = 'application/json'
-    res.end(JSON.stringify(body, null, 4))
+    res.setHeader('Content-type', 'application/json')
+    res.end(JSON.stringify(returnBody, null, 4))
   }))
 })
 
