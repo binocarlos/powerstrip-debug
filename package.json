@@ -4,7 +4,7 @@
   "description": "A stub powerstrip adapter that logs requests to stdout",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "set -e; for t in test/*.js; do node $t; done"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,8 @@
   "dependencies": {
     "concat-stream": "^1.4.7",
     "minimist": "^1.1.0"
+  },
+  "devDependencies": {
+    "tape": "^3.4.0"
   }
 }
