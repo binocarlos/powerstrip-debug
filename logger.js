@@ -10,7 +10,11 @@ module.exports = function(body){
   if(body.Type=='pre-hook'){
 
     var ClientRequest = body.ClientRequest
-    var ClientRequestBody = JSON.parse(ClientRequest.Body)
+    var ClientRequestBody;
+
+    if(ClientRequest.Body){
+      ClientRequestBody = typeof(ClientRequest.Body)=='string' ? JSON.parse(ClientRequest.Body) : ClientRequest.Body
+    }
 
     parts = parts.concat([
       'Request:',
@@ -31,7 +35,11 @@ module.exports = function(body){
   else if(body.Type=='post-hook'){
 
     var ClientRequest = body.ClientRequest
-    var ClientRequestBody = JSON.parse(ClientRequest.Body)
+    var ClientRequestBody;
+
+    if(ClientRequest.Body){
+      ClientRequestBody = typeof(ClientRequest.Body)=='string' ? JSON.parse(ClientRequest.Body) : ClientRequest.Body
+    }
 
     var ServerResponse = body.ServerResponse
 
