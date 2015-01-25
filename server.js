@@ -19,9 +19,9 @@ module.exports = function(opts){
 
       if(opts.verbose){
         output += "\n\n";
-        output += '-------------------------------------------';
+        output += "-------------------------------------------\n"
         output += JSON.stringify(body, null, 4);
-        output += '-------------------------------------------';
+        output += "\n-------------------------------------------\n";
       }
 
       if(!response){
