@@ -1,6 +1,6 @@
 {
   "name": "powerstrip-debug",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A stub powerstrip adapter that logs requests to stdout",
   "main": "index.js",
   "scripts": {
