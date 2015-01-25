@@ -17,6 +17,13 @@ module.exports = function(opts){
       var response = Response(body)
       var output = Logger(body)
 
+      if(opts.verbose){
+        output += "\n\n";
+        output += '-------------------------------------------';
+        output += JSON.stringify(body, null, 4);
+        output += '-------------------------------------------';
+      }
+
       if(!response){
         console.log('Error:  No Type found in body')
         res.statusCode = 500;
